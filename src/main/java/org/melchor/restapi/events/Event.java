@@ -28,6 +28,6 @@ public class Event {
     private boolean offline;
     private boolean free;
     @Enumerated(EnumType.STRING)
-    private EventState eventState;
+    private EventState eventState = EventState.DRAFT;
 
 }
