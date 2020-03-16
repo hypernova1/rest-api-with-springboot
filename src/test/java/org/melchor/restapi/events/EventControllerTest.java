@@ -2,6 +2,7 @@ package org.melchor.restapi.events;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
+import org.melchor.restapi.common.TestDescription;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -54,6 +55,7 @@ public class EventControllerTest {
     }
 
     @Test
+    @TestDescription("정상적으로 이벤트를 생성")
     void createEvent_badRequest() throws Exception {
 
         Event event = Event.builder()
@@ -77,6 +79,7 @@ public class EventControllerTest {
     }
 
     @Test
+    @TestDescription("입력받은 값이 없을 때 발생")
     void createEvent_Bad_Request_Empty_Input() throws Exception {
         EventDto eventDto = EventDto.builder().build();
 
@@ -87,6 +90,7 @@ public class EventControllerTest {
     }
 
     @Test
+    @TestDescription("입력값이 잘못되었을 때 발생")
     void createEvent_Bad_Request_Wrong_Input() throws Exception {
         EventDto eventDto = EventDto.builder()
                 .name("Spring")
