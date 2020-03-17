@@ -35,7 +35,8 @@ public class EventControllerTest {
                 .description("REST API development with Spring")
                 .beginEnrollmentDateTime(LocalDateTime.of(2020, 03, 11, 1, 0, 0))
                 .closeEnrollmentDateTime(LocalDateTime.of(2020, 03, 11, 2, 0, 0))
-                .endEventDateTime(LocalDateTime.of(2020, 03, 11, 3, 0, 0))
+                .beginEventDateTime(LocalDateTime.of(2020, 03, 11, 3, 0, 0))
+                .endEventDateTime(LocalDateTime.of(2020, 03, 11, 4, 0, 0))
                 .basePrice(100)
                 .maxPrice(200)
                 .limitOfEnrollment(100)
@@ -51,7 +52,12 @@ public class EventControllerTest {
                 .andExpect(jsonPath("id").exists())
                 .andExpect(jsonPath("free").value(false))
                 .andExpect(jsonPath("offline").value(true))
-                .andExpect(jsonPath("id").exists());
+                .andExpect(jsonPath("id").exists())
+                .andExpect(jsonPath("_links.self").exists())
+                .andExpect(jsonPath("_links.update-event").exists())
+                .andExpect(jsonPath("_links.query-event").exists())
+        ;
+
     }
 
     @Test

@@ -3,6 +3,7 @@ package org.melchor.restapi.events;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.hateoas.MediaTypes;
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.Errors;
@@ -41,8 +42,19 @@ public class EventController {
         Event event = modelMapper.map(eventDto, Event.class);
         event.update();
         Event newEvent = eventRepository.save(event);
+
+        WebMvcLinkBuilder selfLinkBuilder = linkTo(EventController.class).slash(newEvent.getId());
+
+        URI uri = selfLinkBuilder.slash(newEvent.getId()).toUri();
+
         URI createdUri = linkTo(EventController.class).slash(newEvent.getId()).toUri();
-        return ResponseEntity.created(createdUri).body(newEvent);
+
+        EventResource eventResource = new EventResource(event);
+
+        eventResource.add(linkTo(EventController.class).withRel("query-event"));
+        eventResource.add(selfLinkBuilder.withRel("update-event"));
+
+        return ResponseEntity.created(createdUri).body(eventResource);
     }
 
 }
